@@ -1,0 +1,77 @@
+\newpage
+
+\addtolength{\hoffset}{-2cm}
+
+\section{Codi font}
+
+En aquest apèndix trobarem el codi de l'aplicació, el petit programa per
+obtenir les gràfiques del transitori i els jocs de prova.
+
+\subsection{Codi general}
+
+Aquí trobarem els distints fitxers del la nostra pràctica:
+
+\begin{description}
+
+  \item[main.py] Programa principal.
+
+  \item[suite.py] Gestor de tasques i llançament de rèpliques.
+
+  \item[sim.py] El mòdul principal de la simulació.
+
+  \item[model.py] Modelització dels usuaris, la cpu i el disc.
+
+  \item[rand.py] El nostre mòdul de nombres aleatoris.
+
+  \item[statistic.py] Mòdul del càlcul estadístic.
+
+  \item[chart\_generator.py] Mòdul per pintar les gràfiques.
+
+\end{description}
+
+\pycode{main}
+\pycode{suite}
+\pycode{sim}
+\pycode{model}
+
+\pycode{rand}
+\pycode{statistic}
+\pycode{chart-generator}
+
+\newpage
+
+\subsection{Càlcul del transitori}
+
+Hem usat aquest petit programa per obtenir un parell de mostres gràfiques i
+així tenir pistes sobre com determinar el transitori.
+
+\pycode{calcul-transitori}
+
+\newpage
+
+\subsection{Jocs de prova}
+
+Per la tasca de programació hem aprofitat per aplicar per primera vegada un
+model de programació anomenat \emph{programació dirigida per proves} (de
+l'anglès \emph{test driven development} o TDD). El que es fa és \emph{primer}
+escriure els jocs de proves per cadasqun dels mètodes que es van necessitant i
+no s'avança a la següent característica fins que totes les proves anteriors
+funcionen. Aquesta metodologia pot pareixer més engorrosa però un cop el
+programa va més enllà d'un petit mòdul i alguna gràfica s'accelera la
+programació per que és molt senzill detectar els problemes causats pel nou
+desenvolupament.
+
+Aquest comentari el feim per indicar que el gran nombre de tests de a causa de
+l'estil de programació poc habitual.
+
+\pycode{test-chart}
+\pycode{test-rand}
+\pycode{test-statistic}
+\pycode{test-model}
+\pycode{test-sim}
+\pycode{test-sim-queue}
+\pycode{test-suite}
+
+\newpage
+
+\addtolength{\hoffset}{+2cm}

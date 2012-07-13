@@ -1,0 +1,120 @@
+\section{Especificació del problema}
+
+Cal especificar el nostre simulador tant a nivell numèric com en termes de
+distribucions estadístiques.
+
+\subsection{Paràmetres d'entrada}
+
+\begin{tabular}{lr}
+Paràmetre d'entrada & selecció \\
+\toprule
+Temps mig de reflexió  & 10 seg \\
+Nombre d'usuaris & variable $X$ \\
+Velocitat de CPU & 2500 pps \\
+Velocitat de disc & 15.000 rpm \\
+Peticions de disc per transacció & 5 peticions \\
+Temps de resposta del sistema & variable $Y$ \\
+Throughput & no \\
+Utilització CPU & no \\
+Utilització disc & no \\ 
+\end{tabular}
+
+\subsection{Modelització dels components}
+
+El nostre simulador està caracteritzat per tres components: la població, la CPU
+i el disc dur.
+
+\subsubsection{La població}
+
+Els distints usuaris entren al sistema fent una petició i, un cop resolta,
+s'esperen un temps de reflexió.
+
+\paragraph{Distribució de la població}
+
+La població es pot modelar mitjançant una distribució exponencial de mitja 10
+segons, $Exp(10)$.
+
+\subsubsection{La CPU}
+
+S'ha escollit un processador comercial AMD Opteron 6140, de capacitat de
+treball de 62,4K MIPS\cite{cpu_specs}. Aquest valor és pel conjunt dels vuit
+nuclis però podem limitar la simulació a un sol nucli, donant aproximadament
+uns 7,5K MIPS. Suposam que una visita són 3M instruccions de promig. La
+capacitat de servei i el temps de servei mig són:
+
+\[ \mu = 7,5K MIPS \times \frac{1\text{M instruccions}}{1 \text{seg}} 
+                \times \frac{1 \text{transacció}}{3 \text{M instruccions}} \]
+
+\[ \mu = 7,5K MIPS \times \frac{1{M instruccions}}{1 {seg}} 
+                \times \frac{1 {transacció}}{3 {M instruccions}} \]
+
+\[ \mu = 2.500 \, \frac{transaccions}{s}\]
+
+\[ s = \frac{1}{\mu} = 0,4 \, ms \]
+
+\paragraph{Distribució de la CPU}
+
+La CPU queda modelada amb una distribució constant $C(0,4)$, en ms.
+
+\subsubsection{El disc dur}
+
+S'ha usat un disc dur de servidor model Seagate Cheetah
+15K\cite{disc_specs}. Els discs durs clàssics es composen de tres tasques
+seqüencials: búsqueda (\emph{seek}), latència i transfarència. Aquestes tasques
+es modelen típicament mitjançant distribucions exponencials, uniformes i
+constants respectivament.
+
+Aquest disc dur està especificat com:
+
+\begin{itemize}
+
+  \item Velocitat de rotació 15.000 rpm
+
+  \item Temps de seek del fabricant 3,4 ms
+
+  \item Temps de latència del fabriant 2 ms
+
+  \item Velocitat de transfarència 600 MB/s
+
+\end{itemize}
+
+Suposam un conjunt de fitxers grans, com documents PDF, de tamany 1,5MB. Aquest
+fitxers també els suposarem dispersats aleatòriament al llarg del disc però amb
+els seus blocs continuus. És a dir, obtenir un fitxer consistirà en:
+
+\[ T = seek + lat + trans \]
+
+\paragraph{Càlcul del \emph{seek}}
+
+Com que al nostre exercici sols feim lectures podem usar el temps de
+\emph{seek} mig de lectura especificat pel fabricant de 3,4 ms. Aquest
+estadístic es comporta com una distribució exponencial $Exp(3,4)$ en ms.
+
+\paragraph{Càlcul de la latència}
+
+El nostre disc té una velocitat de rotació de 15.000 rpm, per la qual cosa
+presenta un temps de volta de 4 ms. Això implica una distribució uniforme $U(0,
+4)$ en ms. Cal fixar-se que el fabricant ja havia indicat que la latència mitja
+era de 2ms.
+
+\[ 15.000 \text{rpm} \, \frac{1 \text{ min}}{60 \text{ seg}} = 250 \text{rps}
+= 4 \text{ ms}\]
+
+
+\paragraph{Càlcul de la transfarència}
+
+El temps de transfarència ve pel temps de rotació sobre un sector. El fabricant
+ens especifica que són 600 MB/s i donat que el nostre fitxer és de 1,5MB tardam
+2,5ms de transfarència. Això implica una distribució constant de $C(2,5)$ en
+ms.
+
+\[ 600 \, \text{MB} \, \frac{1 \text{ tasca}}{1,5 \text{ MB}}
+       = 400 \text{ tasques} = 2,5 \text{ ms}\]
+
+\paragraph{Distribució del disc dur}
+
+D'aquesta manera el disc dur es pot modelar mitjançant una distribució composta
+per la del \emph{seek}, la latència i la transfarència juntament amb la forma
+del nostre fitxer (en ms):
+
+\[ Exp(3,4) + U(0, 4) + C(2,5) \]

@@ -1,0 +1,56 @@
+\documentclass[a4paper, 11pt]{article}
+
+%\input{capsalera}
+
+%%%%%%%%%%%%%%%%%
+
+\usepackage{xltxtra}
+
+\setmainfont{Linux Libertine O}
+% \setmainfont[Mapping=tex-text, Numbers={OldStyle}, Ligatures={Common, Rare, Historical}]{Linux Libertine O}
+
+\usepackage[catalan]{babel}
+\usepackage{booktabs}
+\usepackage{indentfirst}
+\usepackage{url}
+\usepackage[backref]{hyperref}
+
+%%%%%%%%%%%%%%%%%%
+
+\title{Simulador d'un sistema interactiu}
+
+\author{
+  Pau Ruŀlan Ferragut \small{<paurullan@gmail.com>}
+}
+
+\date{
+\begin{flushright}
+  Pràctica de simulació \\
+  Convocatòria setembre \\
+  Curs 2010--11
+\end{flushright}
+}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{empty}
+
+\abstract{Com exercici pràctica hem construit un simulador d'esdeveniments
+  discrets que modela un sistema informàtic interactiu. Un cop implementat el
+  simulador l'usarem per determinar el temps de resposta del sistema i estudiar
+  el seu comportament a mida que aumentam els usuaris.}
+
+\input{especificacio}
+%\input{simulador}
+%\input{resultats}
+\input{referencies}
+
+\newpage
+
+\appendix
+
+%\include{codi}
+
+\end{document}

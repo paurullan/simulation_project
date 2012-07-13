@@ -1,0 +1,37 @@
+/DECLARE/ QUEUE CPU, DISC, TERMINAL;
+	  INTEGER N;
+	  INTEGER POB = 10;
+	  &REAL PROB = N/(N+1);
+	  REAL PROB = 0.5;
+	  REAL UDISC = 1.0;
+	  REAL UCPU = 1.0;
+	  REAL LAMBDA = 10.0;
+	  INTEGER I;
+	  REAL TR = 0;
+
+/STATION/ NAME = TERMINAL;
+	  TYPE = INFINITE;
+	  SERVICE = EXP(LAMBDA);
+	  TRANSIT = CPU;
+	  INIT = POB;
+
+/STATION/ NAME = CPU;
+          SCHED = PS;
+          SERVICE = CST(UCPU);
+          TRANSIT = DISC, PROB, TERMINAL;
+
+/STATION/ NAME = DISC;
+          TRANSIT = CPU;
+	  SERVICE = EXP(UDISC);
+
+/CONTROL/ CLASS = ALL QUEUE;
+
+/EXEC/    BEGIN
+            PRINT;
+            SOLVE;
+            TR := MCUSTNB(CPU);
+            TR := TR + MCUSTNB(DISC);
+            TR := TR * LAMBDA;
+            PRINT("RESPONSE TIME IS =",TR);
+          END;
+/END/

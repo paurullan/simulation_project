@@ -1,0 +1,46 @@
+\usepackage{xltxtra}
+
+\setmainfont[Mapping=tex-text, Numbers={OldStyle}, Ligatures={Common, Rare, Historical}]{Linux Libertine O}
+
+% aptitude install texlive-lang-spanish
+\usepackage[catalan]{babel}
+
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[backref]{hyperref}
+\usepackage{textcomp}
+\usepackage{sverb}
+\usepackage[format=plain,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage[kerning,spacing]{microtype}
+\microtypecontext{spacing=nonfrench}
+\usepackage{indentfirst}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{ifdraft}
+\usepackage{amsmath}
+\usepackage{subfig}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{booktabs}
+\usepackage{array}
+
+\ifdraft{
+  \newcommand{\pycode}{
+    Codi deshabilitat en mode \emph{draft}. Consulta ``capsalera.tex'' \\
+  }
+}{
+  \usepackage{minted}
+  \newcommand{\pycode}[1]{
+  \paragraph{#1.py}
+    \inputminted[linenos, frame=lines, fontsize=\small]{python}{src/#1.py}
+  }
+}
+
+\ifdraft{
+  \usepackage{savetrees}
+}{
+}

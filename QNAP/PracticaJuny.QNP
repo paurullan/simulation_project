@@ -1,0 +1,36 @@
+/DECLARE/ QUEUE CPU, DISC, ENTRADA;
+	  INTEGER N = 4;
+	  REAL PROBDISC = 0.5;
+	  & REAL PROBDISC = N/(N+1);
+	  REAL UDISC = 1.0;
+	  REAL UCPU = 1.0;
+	  REAL LAMBDAE = 10.0;
+	  INTEGER I;
+	  REAL TR = 0;
+
+/STATION/ NAME = CPU;
+          SCHED = PS;
+	  TYPE = MULTIPLE(2);
+          SERVICE = CST(UCPU);
+          TRANSIT = DISC, PROBDISC, OUT;
+
+/STATION/ NAME = DISC;
+          TRANSIT = CPU;
+	  SERVICE = EXP(UDISC);
+
+/STATION/ NAME = ENTRADA;
+          TYPE = SOURCE;
+          SERVICE = EXP(LAMBDAE);
+          TRANSIT = CPU;
+
+/CONTROL/ CLASS = ALL QUEUE;
+
+/EXEC/    BEGIN
+            PRINT;
+            SOLVE;
+            TR := MCUSTNB(CPU);
+            TR := TR + MCUSTNB(DISC);
+            TR := TR * LAMBDAE;
+            PRINT("RESPONSE TIME IS =",TR);
+          END;
+/END/
